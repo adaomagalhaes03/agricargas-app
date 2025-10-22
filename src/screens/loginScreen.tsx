@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -73,17 +74,21 @@ export default function LoginScreen({ navigation }: any) {
 </TouchableOpacity>
 
       {/* Botão Entrar */}
-      <TouchableOpacity style={styles.loginButton}>
+            <TouchableOpacity
+        style={styles.loginButton}
+        onPress={() => navigation.navigate("CodeVerification")}
+      >
         <Text style={styles.loginButtonText}>Entrar</Text>
       </TouchableOpacity>
 
+
       {/* Criar conta */}
       <View style={styles.signupContainer}>
-        <Text style={styles.signupText}>Não tem uma conta? </Text>
-        <TouchableOpacity>
-          <Text style={styles.signupLink}>Criar Conta</Text>
-        </TouchableOpacity>
-      </View>
+    <Text style={styles.signupText}>Não tem uma conta? </Text>
+    <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+      <Text style={styles.signupLink}>Criar Conta</Text>
+    </TouchableOpacity>
+  </View>
     </View>
   );
 }

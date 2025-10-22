@@ -9,8 +9,14 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function ForgotPasswordScreen({ navigation }: any) {
-  const [emailOrPhone, setEmailOrPhone] = useState("");
+export default function CodeVerificationScreen({ navigation }: any) {
+  const [otp, setOtp] = useState(["", "", "", "", ""]);
+
+  const handleOtpChange = (value: string, index: number) => {
+    const newOtp = [...otp];
+    newOtp[index] = value.slice(-1); // apenas um dígito
+    setOtp(newOtp);
+  };
 
   return (
     <ImageBackground
@@ -31,33 +37,45 @@ export default function ForgotPasswordScreen({ navigation }: any) {
         {/* Indicadores de progresso */}
         <View style={styles.steps}>
           <View style={[styles.step, { backgroundColor: "#1b8f55" }]} />
-          <View style={[styles.step, { backgroundColor: "#d3d6ff" }]} />
+          <View style={[styles.step, { backgroundColor: "#1b8f55" }]} />
           <View style={[styles.step, { backgroundColor: "#d3d6ff" }]} />
         </View>
 
         {/* Conteúdo principal */}
         <View style={styles.content}>
-          <Text style={styles.title}>Esqueceu a senha?</Text>
+          <Text style={styles.title}>CÓDIGO DE CONFIRMAÇÃO</Text>
           <Text style={styles.subtitle}>
-            Não te preocupes, nós te ajudamos a recuperar a sua conta em poucos
-            minutos.
+            Introduza o código de confirmação que acabámos de enviar{"\n"}
+            para o número +244 934****98
           </Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Email ou número de telefone"
-            placeholderTextColor="#999"
-            value={emailOrPhone}
-            onChangeText={setEmailOrPhone}
-          />
+          <View style={styles.otpContainer}>
+            {otp.map((digit, index) => (
+              <TextInput
+                key={index}
+                style={styles.otpInput}
+                value={digit}
+                keyboardType="number-pad"
+                maxLength={1}
+                onChangeText={(value) => handleOtpChange(value, index)}
+              />
+            ))}
+          </View>
 
-                <TouchableOpacity
-          style={styles.continueButton}
-          onPress={() => navigation.navigate("OTPVerification")}
-        >
-          <Text style={styles.continueText}>Continuar</Text>
-        </TouchableOpacity>
+         <TouchableOpacity
+  style={styles.confirmButton}
+  onPress={() => navigation.navigate("TermsAndPrivacy")}
+>
+  <Text style={styles.confirmText}>Confirmar</Text>
+</TouchableOpacity>
 
+
+          <TouchableOpacity style={styles.resendButton}>
+            <Text style={styles.resendText}>
+              Não recebeu o código?{" "}
+              <Text style={styles.resendLink}>Enviar novamente</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ImageBackground>
@@ -78,8 +96,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "center",
     paddingHorizontal: 25,
+    justifyContent: "center",
   },
   backButton: {
     position: "absolute",
@@ -100,7 +118,6 @@ const styles = StyleSheet.create({
   },
   content: {
     alignItems: "center",
-    justifyContent: "center",
   },
   title: {
     fontSize: 26,
@@ -116,32 +133,48 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     paddingHorizontal: 10,
   },
-  input: {
+  otpContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
+    marginBottom: 30,
+  },
+  otpInput: {
     backgroundColor: "#fff",
-    borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#e0e0e0",
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    fontSize: 15,
-    width: "100%",
-    marginBottom: 25,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    width: 50,
+    height: 50,
+    textAlign: "center",
+    fontSize: 18,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
-    shadowRadius: 5,
+    shadowRadius: 3,
     elevation: 2,
   },
-  continueButton: {
+  confirmButton: {
     backgroundColor: "#1b8f55",
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: "center",
     width: "100%",
   },
-  continueText: {
+  confirmText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  resendButton: {
+    marginTop: 15,
+  },
+  resendText: {
+    color: "#666",
+    fontSize: 14,
+    textAlign: "center",
+  },
+  resendLink: {
+    color: "#1b8f55",
+    fontWeight: "bold",
   },
 });
