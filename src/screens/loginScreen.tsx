@@ -74,12 +74,13 @@ export default function LoginScreen({ navigation }: any) {
 </TouchableOpacity>
 
       {/* Botão Entrar */}
-            <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => navigation.navigate("CodeVerification")}
-      >
-        <Text style={styles.loginButtonText}>Entrar</Text>
-      </TouchableOpacity>
+                  <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => navigation.navigate("SplashScreen")}
+        >
+          <Text style={styles.loginButtonText}>Entrar</Text>
+        </TouchableOpacity>
+
 
 
       {/* Criar conta */}
