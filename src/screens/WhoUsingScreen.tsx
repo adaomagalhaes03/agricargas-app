@@ -10,7 +10,7 @@ import {
 export default function WhoUsingScreen({ navigation }: any) {
   return (
     <ImageBackground
-      source={require("../../assets/profile-2.png")} // usa aqui a tua imagem
+      source={require("../../assets/profile-2.png")} 
       style={styles.background}
       resizeMode="cover"
     >
