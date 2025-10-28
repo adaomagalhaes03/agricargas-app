@@ -13,7 +13,9 @@ import TermsAndPrivacyScreen from "../screens/TermsAndPrivacyScreen";
 import SplashScreen from "../screens/SplashScreen";
 import WhoUsingScreen from "../screens/WhoUsingScreen";
 import ChooseProfileScreen from "../screens/ChooseProfileScreen";
-import CompanyNIFScreen from "../screens/CompanyNIFScreen"; // ✅ nova tela adicionada
+import CompanyNIFScreen from "../screens/CompanyNIFScreen";
+import MainMenuScreen from "../screens/MainMenuScreen";
+import NextStepScreen from "../screens/NextStepScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +42,10 @@ export default function AppNavigator() {
         <Stack.Screen name="WhoUsing" component={WhoUsingScreen} />
         <Stack.Screen name="ChooseProfile" component={ChooseProfileScreen} />
         <Stack.Screen name="CompanyNIF" component={CompanyNIFScreen} />
+
+        {/* 🧭 Telas adicionais */}
+        <Stack.Screen name="MainMenu" component={MainMenuScreen} />
+        <Stack.Screen name="NextStep" component={NextStepScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>

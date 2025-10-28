@@ -9,9 +9,17 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+// 🔹 Tipagem das rotas principais
+type RootStackParamList = {
+  NextStep: undefined;
+};
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, "NextStep">;
 
 export default function CompanyNIFScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const [nif, setNif] = useState("");
 
   return (
@@ -45,7 +53,7 @@ export default function CompanyNIFScreen() {
         {/* Botão Avançar */}
         <TouchableOpacity
           style={styles.nextButton}
-          onPress={() => navigation.navigate("NextStepScreen" as never)}
+          onPress={() => navigation.navigate("NextStep")}
         >
           <Text style={styles.nextButtonText}>Avançar</Text>
           <Ionicons name="arrow-forward" size={18} color="#fff" />
