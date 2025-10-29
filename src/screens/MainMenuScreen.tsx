@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DrawerMenu from "./DrawerMenu";
+import { useNavigation } from "@react-navigation/native";
 
 const mockProducts = [
   { 
@@ -53,6 +54,7 @@ const mockProducts = [
 
 export default function MainMenuScreen() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigation = useNavigation();
 
   const renderStars = (rating: number, total: number = 5) => {
     return (
@@ -79,7 +81,10 @@ export default function MainMenuScreen() {
         <TouchableOpacity onPress={() => setDrawerOpen(true)}>
           <Ionicons name="menu" size={28} color="#666" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.cartButton}>
+        <TouchableOpacity 
+          style={styles.cartButton}
+          onPress={() => navigation.navigate('Cart' as never)}
+        >
           <Ionicons name="cart-outline" size={28} color="#666" />
           <View style={styles.cartBadge}>
             <Text style={styles.cartBadgeText}>32</Text>

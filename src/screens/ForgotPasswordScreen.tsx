@@ -5,21 +5,27 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ImageBackground,
+  Image,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ForgotPasswordScreen({ navigation }: any) {
   const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [inputFocused, setInputFocused] = useState(false);
 
   return (
-    <ImageBackground
-      source={require("../../assets/Group.png")}
-      style={styles.background}
-      resizeMode="contain"
-      imageStyle={styles.imageStyle}
-    >
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
+        {/* Background decorativo */}
+        <View style={styles.backgroundDecoration}>
+          <Image
+            source={require("../../assets/Group.png")}
+            style={styles.decorationImage}
+            resizeMode="contain"
+          />
+        </View>
+
         {/* Botão Voltar */}
         <TouchableOpacity
           style={styles.backButton}
@@ -28,69 +34,83 @@ export default function ForgotPasswordScreen({ navigation }: any) {
           <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
 
-        {/* Indicadores de progresso */}
-        <View style={styles.steps}>
-          <View style={[styles.step, { backgroundColor: "#1b8f55" }]} />
-          <View style={[styles.step, { backgroundColor: "#d3d6ff" }]} />
-          <View style={[styles.step, { backgroundColor: "#d3d6ff" }]} />
+        {/* Steps centralizados e mais abaixo */}
+        <View style={styles.stepsContainer}>
+          <View style={styles.steps}>
+            <View style={[styles.step, styles.stepActive]} />
+            <View style={[styles.step, styles.stepInactive]} />
+            <View style={[styles.step, styles.stepInactive]} />
+          </View>
         </View>
 
         {/* Conteúdo principal */}
-        <View style={styles.content}>
-          <Text style={styles.title}>Esqueceu a senha?</Text>
-          <Text style={styles.subtitle}>
-            Não te preocupes, nós te ajudamos a recuperar a sua conta em poucos
-            minutos.
-          </Text>
+        <View style={styles.centerContainer}>
+          <View style={styles.content}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>Esqueceu a senha?</Text>
+              <Text style={styles.subtitle}>
+                Não te preocupes, nós te ajudamos a recuperar a sua conta em poucos
+                minutos.
+              </Text>
+            </View>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Email ou número de telefone"
-            placeholderTextColor="#999"
-            value={emailOrPhone}
-            onChangeText={setEmailOrPhone}
-          />
+            <TextInput
+              style={[
+                styles.input,
+                inputFocused && styles.inputFocused
+              ]}
+              placeholder="Email ou número de telefone"
+              placeholderTextColor="#999"
+              value={emailOrPhone}
+              onChangeText={setEmailOrPhone}
+              onFocus={() => setInputFocused(true)}
+              onBlur={() => setInputFocused(false)}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
 
-                <TouchableOpacity
-          style={styles.continueButton}
-          onPress={() => navigation.navigate("OTPVerification")}
-        >
-          <Text style={styles.continueText}>Continuar</Text>
-        </TouchableOpacity>
-
+            <TouchableOpacity
+              style={styles.continueButton}
+              onPress={() => navigation.navigate("OTPVerification")}
+            >
+              <Text style={styles.continueButtonText}>Continuar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </ImageBackground>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
+  scrollContainer: {
+    flexGrow: 1,
     backgroundColor: "#fff",
-  },
-  imageStyle: {
-    opacity: 0.08,
-    position: "absolute",
-    bottom: -40,
-    right: 0,
-    left: 0,
   },
   container: {
     flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 25,
+    backgroundColor: "#fff",
   },
   backButton: {
     position: "absolute",
     top: 60,
     left: 20,
+    zIndex: 10,
+    backgroundColor: "#F9FAFB",
+    borderRadius: 8,
+    padding: 8,
+  },
+  stepsContainer: {
+    position: "absolute",
+    top: 100, // a
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    justifyContent: "center",
   },
   steps: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 40,
   },
   step: {
     width: 30,
@@ -98,48 +118,86 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     marginHorizontal: 4,
   },
-  content: {
-    alignItems: "center",
+  stepActive: {
+    backgroundColor: "#22C55E",
+  },
+  stepInactive: {
+    backgroundColor: "#d3d6ff",
+  },
+  centerContainer: {
+    flex: 1,
     justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 30,
+  },
+  backgroundDecoration: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "45%",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    opacity: 0.05,
+  },
+  decorationImage: {
+    width: "90%",
+    height: "90%",
+  },
+  content: {
+    width: "100%",
+    maxWidth: 400,
+    alignItems: "center",
+  },
+  titleContainer: {
+    marginBottom: 40,
+    width: "100%",
+    alignItems: "center",
   },
   title: {
-    fontSize: 26,
+    fontSize: 32,
     fontWeight: "bold",
-    color: "#000",
-    marginBottom: 10,
     textAlign: "center",
+    color: "#000",
+    marginBottom: 12,
   },
   subtitle: {
-    fontSize: 14,
-    color: "#666",
     textAlign: "center",
-    marginBottom: 30,
-    paddingHorizontal: 10,
+    color: "#666",
+    fontSize: 14,
+    lineHeight: 20,
+    maxWidth: 300,
   },
   input: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    fontSize: 15,
     width: "100%",
+    backgroundColor: "#F9FAFB",
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 15,
     marginBottom: 25,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
+    borderWidth: 2,
+    borderColor: "transparent",
+    color: "#000",
+  },
+  inputFocused: {
+    borderColor: "#3461FD",
+    backgroundColor: "#fff",
   },
   continueButton: {
-    backgroundColor: "#1b8f55",
-    paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: "center",
     width: "100%",
+    backgroundColor: "#22C55E",
+    paddingVertical: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+    shadowColor: "#22C55E",
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
-  continueText: {
+  continueButtonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
