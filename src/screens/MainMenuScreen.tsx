@@ -13,16 +13,61 @@ import { Ionicons } from "@expo/vector-icons";
 import DrawerMenu from "./DrawerMenu";
 
 const mockProducts = [
-  { id: "1", name: "Tomates", price: "10.000 Kzs", image: require("../../assets/tomate.png") },
-  { id: "2", name: "Cenouras", price: "30.000 Kzs", image: require("../../assets/cenoura.png") },
-  { id: "3", name: "Batatas", price: "25.000 Kzs", image: require("../../assets/tomate.png") },
-  { id: "4", name: "Alfaces", price: "15.000 Kzs", image: require("../../assets/cenoura.png") },
-  { id: "5", name: "Cebolas", price: "18.000 Kzs", image: require("../../assets/tomate.png") },
-  { id: "6", name: "Pepinos", price: "20.000 Kzs", image: require("../../assets/cenoura.png") },
+  { 
+    id: "1", 
+    name: "Tomates", 
+    price: "10.000 Kzs", 
+    image: require("../../assets/tomate.png"),
+    size: "232 x 143",
+    rating: 4,
+    reviews: 5
+  },
+  { 
+    id: "2", 
+    name: "Cenouras", 
+    price: "30.000 Kzs", 
+    image: require("../../assets/cenoura.png"),
+    badge: "Mais Vendido",
+    rating: 5,
+    reviews: 5
+  },
+  { 
+    id: "3", 
+    name: "Cenouras", 
+    price: "30.000 Kzs", 
+    image: require("../../assets/cenoura.png"),
+    badge: "Mais Vendido",
+    rating: 5,
+    reviews: 5
+  },
+  { 
+    id: "4", 
+    name: "Cenouras", 
+    price: "30.000 Kzs", 
+    image: require("../../assets/cenoura.png"),
+    badge: "Mais Vendido",
+    rating: 5,
+    reviews: 5
+  },
 ];
 
 export default function MainMenuScreen() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const renderStars = (rating: number, total: number = 5) => {
+    return (
+      <View style={styles.starsContainer}>
+        {[...Array(total)].map((_, index) => (
+          <Ionicons
+            key={index}
+            name="star"
+            size={12}
+            color={index < rating ? "#FFD700" : "#ddd"}
+          />
+        ))}
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -32,19 +77,21 @@ export default function MainMenuScreen() {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setDrawerOpen(true)}>
-          <Ionicons name="menu" size={28} color="#000" />
+          <Ionicons name="menu" size={28} color="#666" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>AgriMarket</Text>
-        <TouchableOpacity>
-          <Ionicons name="cart-outline" size={28} color="#000" />
+        <TouchableOpacity style={styles.cartButton}>
+          <Ionicons name="cart-outline" size={28} color="#666" />
+          <View style={styles.cartBadge}>
+            <Text style={styles.cartBadgeText}>32</Text>
+          </View>
         </TouchableOpacity>
       </View>
 
       {/* Search */}
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#999" />
+        <Ionicons name="search-outline" size={20} color="#999" />
         <TextInput
-          placeholder="O que precisas?"
+          placeholder="O que precisas"
           placeholderTextColor="#999"
           style={styles.searchInput}
         />
@@ -61,15 +108,30 @@ export default function MainMenuScreen() {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Image source={item.image} style={styles.productImage} />
-            <Text style={styles.productName}>{item.name}</Text>
-            <Text style={styles.productPrice}>Desde: {item.price}</Text>
-            <TouchableOpacity style={styles.addButton}>
-              <Text style={styles.addText}>+ Add</Text>
-            </TouchableOpacity>
+            <View style={styles.imageContainer}>
+              <Image source={item.image} style={styles.productImage} />
+              {item.size && (
+                <View style={styles.sizeOverlay}>
+                  <Text style={styles.sizeText}>{item.size}</Text>
+                </View>
+              )}
+              {item.badge && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{item.badge}</Text>
+                </View>
+              )}
+            </View>
+            <View style={styles.productInfo}>
+              <Text style={styles.productName}>{item.name}</Text>
+              <Text style={styles.productPrice}>Desde: {item.price}</Text>
+              <View style={styles.ratingContainer}>
+                <Text style={styles.ratingLabel}>Avaliação:</Text>
+                {renderStars(item.rating, item.reviews)}
+              </View>
+            </View>
           </View>
         )}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 100 }}
       />
     </SafeAreaView>
   );
@@ -84,79 +146,127 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 12,
     backgroundColor: "#fff",
-    borderBottomWidth: 0.4,
-    borderBottomColor: "#ddd",
-    elevation: 2,
   },
-  headerTitle: {
+  cartButton: {
+    position: "relative",
+  },
+  cartBadge: {
+    position: "absolute",
+    right: -8,
+    top: -6,
+    backgroundColor: "#FF6B6B",
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 5,
+  },
+  cartBadgeText: {
+    color: "#fff",
+    fontSize: 11,
     fontWeight: "bold",
-    fontSize: 18,
-    color: "#000",
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f2f4f7",
-    borderRadius: 10,
+    backgroundColor: "#F5F7FA",
+    borderRadius: 25,
     marginHorizontal: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginTop: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    marginTop: 15,
     marginBottom: 20,
   },
   searchInput: {
     flex: 1,
-    paddingLeft: 8,
+    paddingLeft: 10,
     color: "#000",
     fontSize: 15,
   },
   sectionTitle: {
     fontWeight: "bold",
-    fontSize: 17,
+    fontSize: 18,
     marginLeft: 20,
-    marginBottom: 10,
+    marginBottom: 15,
     color: "#000",
   },
   card: {
     flex: 1,
     backgroundColor: "#fff",
-    margin: 10,
-    borderRadius: 12,
+    margin: 6,
+    borderRadius: 8,
     shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
-    padding: 10,
-    alignItems: "center",
-    borderWidth: 0.3,
-    borderColor: "#eee",
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+    overflow: "hidden",
+  },
+  imageContainer: {
+    position: "relative",
+    width: "100%",
+    height: 140,
   },
   productImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 10,
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  sizeOverlay: {
+    position: "absolute",
+    bottom: 8,
+    left: 8,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+  },
+  sizeText: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "500",
+  },
+  badge: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    backgroundColor: "#4CAF50",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+  },
+  badgeText: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "bold",
+  },
+  productInfo: {
+    padding: 10,
   },
   productName: {
     fontWeight: "bold",
     color: "#000",
-    marginTop: 8,
     fontSize: 15,
+    marginBottom: 4,
   },
   productPrice: {
+    color: "#4CAF50",
+    fontSize: 13,
+    fontWeight: "600",
+    marginBottom: 6,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  ratingLabel: {
+    fontSize: 11,
     color: "#666",
-    fontSize: 13,
-    marginVertical: 4,
+    marginRight: 6,
   },
-  addButton: {
-    backgroundColor: "#1b8f55",
-    borderRadius: 8,
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    marginTop: 6,
-  },
-  addText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 13,
+  starsContainer: {
+    flexDirection: "row",
+    gap: 2,
   },
 });
