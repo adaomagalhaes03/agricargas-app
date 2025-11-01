@@ -1,17 +1,38 @@
-import React, { useEffect } from "react";
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { 
+  View, 
+  Text, 
+  ImageBackground, 
+  StyleSheet, 
+  ActivityIndicator,
+  Animated 
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function NextStepScreen() {
   const navigation = useNavigation();
+  const progressAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    // Animação da barra de progresso
+    Animated.timing(progressAnim, {
+      toValue: 1,
+      duration: 3000,
+      useNativeDriver: false,
+    }).start();
+
+    // Timer para navegar
     const timer = setTimeout(() => {
-      navigation.navigate("MainMenu" );
+      navigation.navigate("MainMenu");
     }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
+
+  const progressWidth = progressAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0%', '100%'],
+  });
 
   return (
     <ImageBackground
@@ -20,10 +41,22 @@ export default function NextStepScreen() {
       resizeMode="cover"
     >
       <View style={styles.overlay}>
-        <Text style={styles.text}>Estamos preparando tudo para si!</Text>
-        <ActivityIndicator size="large" color="#fff" style={{ marginTop: 20 }} />
+        {/* Spinner loader */}
+        <ActivityIndicator size="large" color="#fff" />
+        
+        {/* Texto */}
+        <Text style={styles.text}>
+          Estamos{'\n'}preparando tudo{'\n'}para si!
+        </Text>
+
+        {/* Barra de progresso */}
         <View style={styles.progressBarContainer}>
-          <View style={styles.progressBar} />
+          <Animated.View 
+            style={[
+              styles.progressBar,
+              { width: progressWidth }
+            ]} 
+          />
         </View>
       </View>
     </ImageBackground>
@@ -36,28 +69,30 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: "rgba(0, 0, 0, 0.35)",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 25,
+    paddingHorizontal: 30,
   },
   text: {
-    fontSize: 22,
+    fontSize: 28,
     color: "#fff",
     fontWeight: "bold",
     textAlign: "center",
+    marginTop: 24,
+    lineHeight: 36,
   },
   progressBarContainer: {
-    width: "60%",
-    height: 5,
-    backgroundColor: "#ccc",
-    borderRadius: 4,
-    marginTop: 30,
+    width: "80%",
+    height: 6,
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 3,
+    marginTop: 40,
     overflow: "hidden",
   },
   progressBar: {
-    width: "100%",
     height: "100%",
-    backgroundColor: "#1b8f55",
+    backgroundColor: "#22C55E",
+    borderRadius: 3,
   },
 });
