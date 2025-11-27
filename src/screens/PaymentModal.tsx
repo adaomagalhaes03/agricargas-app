@@ -64,7 +64,7 @@ export default function PaymentModal({
               serviço solicitado
             </Text>
 
-            {/* Amount */}
+            {/* Amount */} 
             <Text style={styles.amount}>Total: {totalAmount}</Text>
 
             {/* Confirm Button */}

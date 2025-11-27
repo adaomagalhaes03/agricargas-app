@@ -48,16 +48,16 @@ export default function NextStepScreen() {
         <Text style={styles.text}>
           Estamos{'\n'}preparando tudo{'\n'}para si!
         </Text>
+      </View>
 
-        {/* Barra de progresso */}
-        <View style={styles.progressBarContainer}>
-          <Animated.View 
-            style={[
-              styles.progressBar,
-              { width: progressWidth }
-            ]} 
-          />
-        </View>
+      {/* Barra de progresso na parte inferior */}
+      <View style={styles.progressBarContainer}>
+        <Animated.View 
+          style={[
+            styles.progressBar,
+            { width: progressWidth }
+          ]} 
+        />
       </View>
     </ImageBackground>
   );
@@ -83,11 +83,13 @@ const styles = StyleSheet.create({
     lineHeight: 36,
   },
   progressBarContainer: {
-    width: "80%",
+    position: "absolute",
+    bottom: 40,
+    left: 20,
+    right: 20,
     height: 6,
     backgroundColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 3,
-    marginTop: 40,
     overflow: "hidden",
   },
   progressBar: {
