@@ -30,7 +30,6 @@ export default function RegisterScreen() {
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
-        {/* Background decorativo */}
         <View style={styles.backgroundDecoration}>
           <Image
             source={require("../../assets/Group.png")}

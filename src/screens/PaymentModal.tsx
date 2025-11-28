@@ -58,7 +58,6 @@ export default function PaymentModal({
             {/* IBAN */}
             <Text style={styles.iban}>Iban:0040.0000.5312.5104.1015.9</Text>
 
-            {/* Description */}
             <Text style={styles.description}>
               Esse é o iban em que deve realizar a transferência do pagamento do
               serviço solicitado
