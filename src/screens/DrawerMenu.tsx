@@ -8,8 +8,21 @@ import {
   Animated,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  Profile: undefined;
+  PurchaseHistory: undefined;
+  ValidateProvider: undefined;
+  Help: undefined;
+  Login: undefined;
+};
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function DrawerMenu({ onClose }: { onClose: () => void }) {
+  const navigation = useNavigation<NavigationProp>();
   const slideAnim = useRef(new Animated.Value(-300)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -44,6 +57,20 @@ export default function DrawerMenu({ onClose }: { onClose: () => void }) {
     ]).start(() => onClose());
   };
 
+  const handleNavigate = (screen: keyof RootStackParamList) => {
+    handleClose();
+    setTimeout(() => {
+      navigation.navigate(screen);
+    }, 300);
+  };
+
+  const handleExit = () => {
+    handleClose();
+    setTimeout(() => {
+      navigation.navigate("Login");
+    }, 300);
+  };
+
   return (
     <Animated.View
       style={[
@@ -53,6 +80,12 @@ export default function DrawerMenu({ onClose }: { onClose: () => void }) {
         },
       ]}
     >
+      <TouchableOpacity 
+        style={StyleSheet.absoluteFill} 
+        activeOpacity={1} 
+        onPress={handleClose}
+      />
+      
       <Animated.View
         style={[
           styles.drawer,
@@ -70,22 +103,22 @@ export default function DrawerMenu({ onClose }: { onClose: () => void }) {
 
           {/* Itens do Menu */}
           <View style={styles.menuContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleNavigate("Profile")}>
               <Text style={styles.menuItem}>PERFIL</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleNavigate("PurchaseHistory")}>
               <Text style={styles.menuItem}>HISTÓRICO DE COMPRA</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleNavigate("ValidateProvider")}>
               <Text style={styles.menuItem}>VALIDAR PRESTADOR</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleNavigate("Help")}>
               <Text style={styles.menuItem}>AJUDA</Text>
             </TouchableOpacity>
           </View>
 
           {/* Botão Sair */}
-          <TouchableOpacity style={styles.exitButton}>
+          <TouchableOpacity style={styles.exitButton} onPress={handleExit}>
             <Ionicons name="exit-outline" size={18} color="red" />
             <Text style={styles.exitText}>SAIR DA APLICAÇÃO</Text>
           </TouchableOpacity>
@@ -108,8 +141,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "75%",
     backgroundColor: "#fff",
-    paddingHorizontal: 30, // puxado mais à direita
-    paddingTop: 70, // botão desce mais
+    paddingHorizontal: 30,
+    paddingTop: 70,
     zIndex: 10,
     elevation: 10,
   },
@@ -132,11 +165,12 @@ const styles = StyleSheet.create({
     color: "#001f3f",
     fontSize: 16,
     marginBottom: 26,
-    marginLeft: 10, // texto afastado da borda
+    marginLeft: 10,
   },
   exitButton: {
     position: "absolute",
     bottom: 40,
+    left: 30,
     flexDirection: "row",
     alignItems: "center",
   },

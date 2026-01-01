@@ -6,8 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  StatusBar,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -28,7 +28,11 @@ export default function CompanyNIFScreen() {
       style={styles.background}
       resizeMode="cover"
     >
-      <View style={styles.overlay}>
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      
+      <View style={styles.overlay} />
+
+      <View style={styles.container}>
         {/* Conteúdo central */}
         <View style={styles.content}>
           <Text style={styles.title}>
@@ -37,31 +41,38 @@ export default function CompanyNIFScreen() {
           <Text style={styles.subtitle}>Como está?</Text>
 
           <Text style={styles.description}>
-            Informe o NIF da sua empresa para prosseguirmos.
+            Informe o NIF da sua empresa para
+          </Text>
+          <Text style={styles.description}>
+            prosseguirmos.
           </Text>
 
           <TextInput
             style={styles.input}
-            placeholder="Digite o NIF da empresa"
+            placeholder="NIF"
             placeholderTextColor="#999"
             value={nif}
             onChangeText={setNif}
-            keyboardType="numeric"
+            keyboardType="default"
+            autoCapitalize="characters"
           />
         </View>
 
-        {/* Botão Avançar */}
-        <TouchableOpacity
-          style={styles.nextButton}
-          onPress={() => navigation.navigate("NextStep")}
-        >
-          <Text style={styles.nextButtonText}>Avançar</Text>
-          <Ionicons name="arrow-forward" size={18} color="#fff" />
-        </TouchableOpacity>
+        {/* Seção inferior */}
+        <View style={styles.bottomSection}>
+          {/* Botão Avançar */}
+          <TouchableOpacity
+            style={styles.nextButton}
+            onPress={() => navigation.navigate("NextStep")}
+            activeOpacity={0.85}
+          >
+            <Text style={styles.nextButtonText}>Avançar →</Text>
+          </TouchableOpacity>
 
-        {/* Barra de progresso */}
-        <View style={styles.progressBarContainer}>
-          <View style={styles.progressBar} />
+          {/* Barra de progresso */}
+          <View style={styles.progressBarContainer}>
+            <View style={styles.progressBar} />
+          </View>
         </View>
       </View>
     </ImageBackground>
@@ -73,83 +84,101 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  },
+  container: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.25)",
-    justifyContent: "center",
-    paddingHorizontal: 25,
-    paddingBottom: 40,
+    justifyContent: "space-between",
+    paddingTop: 100,
+    paddingBottom: 50,
   },
   content: {
-    alignItems: "center",
-    justifyContent: "center",
     flex: 1,
-    marginTop: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 30,
   },
   title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "#fff",
+    fontSize: 32,
+    fontWeight: "800",
+    color: "#FFFFFF",
     textAlign: "center",
+    lineHeight: 40,
   },
   highlight: {
-    color: "#1b8f55",
+    color: "#1DD87C",
   },
   subtitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#fff",
+    fontSize: 32,
+    fontWeight: "800",
+    color: "#FFFFFF",
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 16,
+    lineHeight: 40,
   },
   description: {
-    fontSize: 14,
-    color: "#e5e5e5",
+    fontSize: 15,
+    color: "#FFFFFF",
     textAlign: "center",
-    marginBottom: 25,
-    paddingHorizontal: 10,
+    lineHeight: 22,
+    fontWeight: "400",
   },
   input: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    fontSize: 15,
-    borderWidth: 1.3,
-    borderColor: "#1b8f55",
-    width: "90%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    fontSize: 16,
+    width: "100%",
+    marginTop: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  bottomSection: {
+    paddingHorizontal: 30,
+    paddingBottom: 20,
   },
   nextButton: {
-    flexDirection: "row",
-    backgroundColor: "#1b8f55",
+    backgroundColor: "#1DD87C",
     paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    paddingHorizontal: 28,
+    borderRadius: 12,
     alignSelf: "flex-end",
-    width: 140,
-    position: "absolute",
-    bottom: 80,
-    right: 25,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+    marginBottom: 20,
   },
   nextButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: "#FFFFFF",
     fontSize: 16,
-    marginRight: 6,
+    fontWeight: "700",
+    letterSpacing: 0.3,
   },
   progressBarContainer: {
-    position: "absolute",
-    bottom: 30,
-    left: 25,
-    right: 25,
-    height: 6,
-    backgroundColor: "#dcdcdc",
-    borderRadius: 4,
+    width: "100%",
+    height: 4,
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 2,
     overflow: "hidden",
   },
+  
   progressBar: {
-    width: "70%",
+    width: "75%",
     height: "100%",
-    backgroundColor: "#1b8f55",
+    backgroundColor: "#1DD87C",
+    borderRadius: 2,
   },
 });

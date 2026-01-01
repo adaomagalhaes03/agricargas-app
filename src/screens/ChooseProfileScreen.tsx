@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -17,40 +18,48 @@ export default function ChooseProfileScreen() {
       style={styles.background}
       resizeMode="cover"
     >
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      
       <View style={styles.overlay} />
 
-      <View style={styles.content}>
-        <Text style={styles.title}>Qual perfil é o Seu?</Text>
-        <Text style={styles.subtitle}>
-          Selecione uma das opções{'\n'}para prosseguirmos.
-        </Text>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Qual perfil é</Text>
+          <Text style={styles.title}>o Seu?</Text>
+          
+          <Text style={styles.subtitle}>
+            Selecione uma das opções
+          </Text>
+          <Text style={styles.subtitle}>
+            para prosseguirmos.
+          </Text>
 
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity
               style={[styles.button, styles.companyButton]}
-              onPress={() => navigation.navigate("CompanyNIF" as never )}
+              onPress={() => navigation.navigate("CompanyNIF" as never)}
+              activeOpacity={0.85}
             >
-              <Text style={[styles.buttonText, styles.companyButtonText]}>
+              <Text style={styles.companyButtonText}>
                 Empresa
               </Text>
-</TouchableOpacity>
+            </TouchableOpacity>
 
-
-          <TouchableOpacity
-            style={[styles.button, styles.vendorButton]}
-            onPress={() => {
-              // navegar para a tela do vendedor (cria a rota se ainda não existir)
-              navigation.navigate("VendorNIF" as never);
-            }}
-          >
-            <Text style={styles.buttonText}>Vendedor</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.vendorButton]}
+              onPress={() => navigation.navigate("VendorNIF" as never)}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.vendorButtonText}>Vendedor</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
-        {/* Indicador de progresso */}
-        <View style={styles.progressContainer}>
-          <View style={styles.progressActive} />
-          <View style={styles.progressInactive} />
+        <View style={styles.bottomSection}>
+          {/* Indicador de progresso */}
+          <View style={styles.progressContainer}>
+            <View style={styles.progressBar} />
+          </View>
         </View>
       </View>
     </ImageBackground>
@@ -63,76 +72,89 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  },
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingTop: 100,
+    paddingBottom: 50,
   },
   content: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingBottom: 56,
+    paddingHorizontal: 30,
   },
   title: {
-    color: "#fff",
-    fontSize: 26,
-    fontWeight: "700",
+    color: "#FFFFFF",
+    fontSize: 34,
+    fontWeight: "800",
     textAlign: "center",
-    marginBottom: 8,
-    lineHeight: 34,
+    lineHeight: 42,
   },
   subtitle: {
-    color: "#e5e5e5",
+    color: "#FFFFFF",
     textAlign: "center",
-    marginBottom: 32,
-    fontSize: 14,
-    lineHeight: 20,
-    paddingHorizontal: 8,
+    fontSize: 15,
+    lineHeight: 22,
+    fontWeight: "400",
+    marginTop: 4,
   },
   buttonsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 28,
+    justifyContent: "center",
+    marginTop: 40,
+    gap: 16,
   },
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 28,
-    borderRadius: 10,
-    marginHorizontal: 8,
-    minWidth: 120,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 12,
+    minWidth: 140,
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 6,
   },
   companyButton: {
-    backgroundColor: "#d6f5e0",
+    backgroundColor: "#B8F5D0",
   },
   vendorButton: {
-    backgroundColor: "#1b8f55",
-  },
-  buttonText: {
-    fontWeight: "700",
-    fontSize: 16,
-    color: "#000",
+    backgroundColor: "#1DD87C",
   },
   companyButtonText: {
-    color: "#000",
+    fontWeight: "700",
+    fontSize: 17,
+    color: "#000000",
+  },
+  vendorButtonText: {
+    fontWeight: "700",
+    fontSize: 17,
+    color: "#FFFFFF",
+  },
+  bottomSection: {
+    paddingHorizontal: 30,
+    paddingBottom: 20,
   },
   progressContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 8,
+    width: "100%",
+    height: 4,
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 2,
+    overflow: "hidden",
   },
-  progressActive: {
-    width: 80,
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: "#1b8f55",
-    marginHorizontal: 6,
-  },
-  progressInactive: {
-    width: 40,
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: "#ccc",
-    marginHorizontal: 6,
+  progressBar: {
+    width: "66%",
+    height: "100%",
+    backgroundColor: "#1DD87C",
+    borderRadius: 2,
   },
 });

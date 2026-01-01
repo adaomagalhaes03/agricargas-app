@@ -17,6 +17,7 @@ import CompanyNIFScreen from "../screens/CompanyNIFScreen";
 import MainMenuScreen from "../screens/MainMenuScreen";
 import NextStepScreen from "../screens/NextStepScreen";
 import CartScreen from "../screens/CardScreen";
+import ProfileScreen from "../screens/profileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +36,6 @@ export default function AppNavigator() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="CodeVerification" component={CodeVerificationScreen} />
 
-
         {/* 📜 Termos e políticas */}
         <Stack.Screen name="TermsAndPrivacy" component={TermsAndPrivacyScreen} />
 
@@ -45,14 +45,17 @@ export default function AppNavigator() {
         <Stack.Screen name="ChooseProfile" component={ChooseProfileScreen} />
         <Stack.Screen name="CompanyNIF" component={CompanyNIFScreen} />
 
+        {/* 👤 Perfil do usuário */}
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+
         {/* 🧭 Telas adicionais */}
         <Stack.Screen name="MainMenu" component={MainMenuScreen} />
         <Stack.Screen name="NextStep" component={NextStepScreen} />
         <Stack.Screen 
-        name="Cart" 
-        component={CartScreen}
-        options={{ headerShown: false }}
-      />
+          name="Cart" 
+          component={CartScreen}
+          options={{ headerShown: false }}
+        />
 
       </Stack.Navigator>
     </NavigationContainer>

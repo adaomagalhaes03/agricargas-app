@@ -5,7 +5,7 @@ import {
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
-  Image,
+  StatusBar,
 } from "react-native";
 
 export default function WhoUsingScreen({ navigation }: any) {
@@ -15,31 +15,44 @@ export default function WhoUsingScreen({ navigation }: any) {
       style={styles.background}
       resizeMode="cover"
     >
-      <View style={styles.overlay}>
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      
+      <View style={styles.overlay} />
+
+      <View style={styles.container}>
         <View style={styles.content}>
           <Text style={styles.title}>
-            QUEM ESTA{"\n"}
-            <Text style={styles.highlight}>USANDO A NOSSA{"\n"}</Text>
-            APLICAÇAO?
+            QUEM ESTÁ
           </Text>
-
+          <Text style={styles.title}>
+            <Text style={styles.highlight}>USANDO</Text> A NOSSA
+          </Text>
+          <Text style={styles.title}>
+            APLICAÇÃO?
+          </Text>
+          
           <Text style={styles.subtitle}>
-            Siga as instruções simples e vamos{"\n"}
-            construir o seu perfil agricangas!
+            Segue algumas instruções simples e vamos
           </Text>
+          <Text style={styles.subtitle}>
+            construir o seu perfil agricargas!
+          </Text>
+        </View>
+
+        <View style={styles.bottomSection}>
+          {/* Botão Avançar */}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("ChooseProfile")}
+            activeOpacity={0.85}
+          >
+            <Text style={styles.buttonText}>Avançar →</Text>
+          </TouchableOpacity>
 
           {/* Barra de progresso */}
           <View style={styles.progressContainer}>
             <View style={styles.progressBar} />
           </View>
-
-          {/* Botão Avançar */}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("ChooseProfile")}
-          >
-            <Text style={styles.buttonText}>Avançar →</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </ImageBackground>
@@ -53,66 +66,77 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   overlay: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0, 0, 0, 0.4)",
-    justifyContent: "flex-end",
-    paddingHorizontal: 30,
-    paddingBottom: 60,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingTop: 100,
+    paddingBottom: 50,
   },
   content: {
-    alignItems: "flex-start",
-    width: "100%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 30,
   },
   title: {
-    color: "#fff",
+    color: "#FFFFFF",
     fontSize: 32,
-    fontWeight: "bold",
-    textAlign: "left",
-    marginBottom: 20,
-    lineHeight: 38,
+    fontWeight: "900",
+    textAlign: "center",
+    lineHeight: 40,
+    letterSpacing: 1,
   },
   highlight: {
-    color: "#22C55E",
-    fontWeight: "bold",
+    color: "#1DD87C",
   },
   subtitle: {
-    color: "#fff",
-    textAlign: "left",
-    fontSize: 16,
+    color: "#FFFFFF",
+    textAlign: "center",
+    fontSize: 15,
     lineHeight: 22,
-    marginBottom: 40,
-    opacity: 0.9,
+    fontWeight: "400",
+    marginTop: 4,
+  },
+  bottomSection: {
+    paddingHorizontal: 30,
+    paddingBottom: 20,
+  },
+  button: {
+    backgroundColor: "#1DD87C",
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 12,
+    alignSelf: "flex-end",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "700",
+    letterSpacing: 0.3,
   },
   progressContainer: {
     width: "100%",
-    height: 6,
+    height: 4,
     backgroundColor: "rgba(255, 255, 255, 0.3)",
-    borderRadius: 3,
-    marginBottom: 40,
+    borderRadius: 2,
     overflow: "hidden",
   },
   progressBar: {
-    width: "33%", // Primeiro step de 3
+    width: "50%",
     height: "100%",
-    backgroundColor: "#22C55E",
-    borderRadius: 3,
-  },
-  button: {
-    backgroundColor: "#22C55E",
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 30,
-    alignSelf: "flex-end",
-    shadowColor: "#22C55E",
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 6,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
+    backgroundColor: "#1DD87C",
+    borderRadius: 2,
   },
 });
